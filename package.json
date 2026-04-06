@@ -26,7 +26,9 @@
     "better-sqlite3": "11.10.0",
     "cron-parser": "5.5.0",
     "qrcode": "^1.5.4",
-    "qrcode-terminal": "^0.12.0"
+    "openai": "^6.27.0",
+    "qrcode-terminal": "^0.12.0",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@eslint/js": "^9.35.0",
