@@ -343,6 +343,12 @@ async function pollAuthCompletion(
     const content = readFileSafe(statusFile);
 
     if (content === 'authenticated' || content === 'already_authenticated') {
+      // Wait for creds.json to be written to disk before cleanup kills the auth process
+      const credsPath = path.join(projectRoot, 'store', 'auth', 'creds.json');
+      for (let j = 0; j < 10; j++) {
+        if (fs.existsSync(credsPath)) break;
+        await sleep(500);
+      }
       // Write success page if qr-auth.html exists
       const htmlPath = path.join(projectRoot, 'store', 'qr-auth.html');
       if (fs.existsSync(htmlPath)) {
