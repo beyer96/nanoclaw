@@ -38,7 +38,4 @@ groups/global/*
 agents-sdk-docs
 
 # Night coding task queue (runtime state)
-tasks/pending/
-tasks/active/
-tasks/done/
-tasks/status/
+store/tasks/

@@ -14,7 +14,7 @@ import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const NANOCLAW_DIR = path.resolve(__dirname, '..');
-const TASKS_DIR = path.join(NANOCLAW_DIR, 'tasks');
+const TASKS_DIR = path.join(NANOCLAW_DIR, 'store', 'tasks');
 const PENDING_DIR = path.join(TASKS_DIR, 'pending');
 const ACTIVE_DIR = path.join(TASKS_DIR, 'active');
 const DONE_DIR = path.join(TASKS_DIR, 'done');
