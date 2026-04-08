@@ -46,20 +46,21 @@ function isAfterDeadline() {
 }
 
 function isRateLimitOutput(output) {
-  return /usage limit|rate limit|limit reached|too many requests|claude ai usage/i.test(output);
+  return /usage limit|rate limit|limit reached|too many requests|claude ai usage|hit your limit|you've hit/i.test(output);
 }
 
 /**
  * Parse the reset wait time from Claude's rate-limit message.
+ * Handles formats like "resets 1am", "resets at 1:30 AM", "resets 1:00am".
  * Falls back to RATE_LIMIT_DEFAULT_WAIT_MS if not parseable.
  */
 function parseWaitMs(output) {
-  const match = output.match(/resets?\s+(?:at\s+)?(\d{1,2}:\d{2}\s*[AP]M)/i);
+  // Match "resets 1am", "resets at 1:30 AM", "resets 1:00am", etc.
+  const match = output.match(/resets?\s+(?:at\s+)?(\d{1,2})(?::(\d{2}))?\s*([AP]M|am|pm)/i);
   if (match) {
-    const [rawHour, rawMin] = match[1].replace(/\s+/g, '').split(':');
-    const isPm = /pm/i.test(match[1]);
-    let h = parseInt(rawHour, 10);
-    const m = parseInt(rawMin, 10);
+    let h = parseInt(match[1], 10);
+    const m = match[2] ? parseInt(match[2], 10) : 0;
+    const isPm = /pm/i.test(match[3]);
     if (isPm && h !== 12) h += 12;
     if (!isPm && h === 12) h = 0;
     const now = new Date();
